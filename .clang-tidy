@@ -1,0 +1,66 @@
+# .clang-tidy
+
+Checks: # 사용할 정적 분석 체크 목록
+  # 구글 스타일 가이드 활성화
+  - 'google-*'
+  # 현대적인 C++ 코드.
+  - 'modernize-*'
+  - 'readability-*'
+  - 'bugprone-*'
+  - 'performance-*'
+  - 'cppcoreguidelines-*'
+
+  # 제외할 체크 목록
+  - -clang-analyzer-cplusplus.NewDeleteLeaks
+  - -bugprone-easily-swappable-parameters
+
+WarningsAsErrors: "*" # 모든 경고를 오류로 처리
+
+HeaderFilterRegex: '^(src|include)/.*' # 프로젝트 내부 헤더만 검사
+
+FormatStyle: file  # .clang-format 파일 사용
+
+CheckOptions: # 각 체크별 세부 옵션 설정
+  - key: modernize-use-nullptr.NullMacros
+    value: "NULL"
+
+  # Google 스타일 네이밍 규칙
+  # 함수/메서드: MyFunction() (CamelCase)
+  - key: readability-identifier-naming.FunctionCase
+    value: CamelCase
+  - key: readability-identifier-naming.MethodCase
+    value: CamelCase
+
+  # 일반 변수 및 파라미터: my_variable (lower_case)
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
+  - key: readability-identifier-naming.ParameterCase
+    value: lower_case
+
+  # 멤버 변수: my_member_ (lower_case + 후행 밑줄)
+  - key: readability-identifier-naming.MemberCase
+    value: lower_case
+  - key: readability-identifier-naming.MemberSuffix
+    value: '_'
+  - key: readability-identifier-naming.PrivateMemberSuffix
+    value: '_'
+  - key: readability-identifier-naming.MemberPrefix
+    value: '' # 선행 밑줄 금지
+
+  # 타입(클래스, 구조체, Enum): MyType (CamelCase)
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.StructCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumCase
+    value: CamelCase
+
+  # 상수 및 Enum 값: kMyConstant (k + CamelCase)
+  - key: readability-identifier-naming.ConstantCase
+    value: CamelCase
+  - key: readability-identifier-naming.ConstantPrefix
+    value: 'k'
+  - key: readability-identifier-naming.EnumConstantCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumConstantPrefix
+    value: 'k'

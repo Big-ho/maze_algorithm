@@ -1,0 +1,11 @@
+BasedOnStyle: Google            # Google 스타일을 기본으로 사용
+IndentWidth: 2                 # 들여쓰기 너비 (공백 2칸)
+ColumnLimit: 100                # 한 줄 최대 길이 (100자)
+AllowShortFunctionsOnASingleLine: Inline   # 짧은 함수는 한 줄에 작성 허용
+DerivePointerAlignment: false  # 포인터 정렬은 수동 지정
+PointerAlignment: Left         # 포인터 기호는 변수 이름 왼쪽 (예: int* ptr)
+SortIncludes: true             # include 문을 정렬
+IncludeBlocks: Regroup         # 관련 include들을 블록 단위로 묶어 정렬
+BreakBeforeBraces: Attach      # 중괄호는 같은 줄에 붙이기 (Google 스타일)
+AllowShortIfStatementsOnASingleLine: false # 짧은 if문도 반드시 줄바꿈
+SpaceAfterCStyleCast: true     # C 스타일 캐스트 뒤에 공백 삽입 (예: (int) x)
