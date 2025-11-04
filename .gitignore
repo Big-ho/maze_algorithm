@@ -57,3 +57,5 @@ conaninfo.txt
 
 .cache/
 .vscode/
+
+maze_data.txt

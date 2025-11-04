@@ -13,6 +13,7 @@ Checks: # 사용할 정적 분석 체크 목록
   # 제외할 체크 목록
   - -clang-analyzer-cplusplus.NewDeleteLeaks
   - -bugprone-easily-swappable-parameters
+  - -readability-identifier-length
 
 WarningsAsErrors: "*" # 모든 경고를 오류로 처리
 
