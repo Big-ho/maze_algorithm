@@ -17,25 +17,26 @@ else()
   message(FATAL_ERROR "OpenCV not found!")
 endif()
 
-# # 공통 라이브러리 타겟 (std_cpp_lib)
-# add_library(${PROJECT_NAME}_lib STATIC)
-# target_sources(${PROJECT_NAME}_lib
-#   PRIVATE
-# )
+# 공통 라이브러리 타겟
+add_library(${PROJECT_NAME}_lib STATIC)
+target_sources(${PROJECT_NAME}_lib
+  PRIVATE
+    src/utils/zhang_suen_thinning.cpp
+)
 
-# # 라이브러리 인클루드 경로 설정
-# target_include_directories(${PROJECT_NAME}_lib
-#   PUBLIC
-#     include
-#     ${OPENCV_REQUIRED_INCLUDES}
-#   PRIVATE
-#     src
-# )
+# 라이브러리 인클루드 경로 설정
+target_include_directories(${PROJECT_NAME}_lib
+  PUBLIC
+    include
+    ${OPENCV_REQUIRED_INCLUDES}
+  PRIVATE
+    src
+)
 
 # 메인 실행 파일
 add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME}
   PRIVATE
-    # ${PROJECT_NAME}_lib
+    ${PROJECT_NAME}_lib
     ${OPENCV_REQUIRED_LIBS}
 )
