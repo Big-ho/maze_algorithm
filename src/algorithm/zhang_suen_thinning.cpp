@@ -1,13 +1,36 @@
-#include "utils/zhang_suen_thinning.hpp"
-
 #include <array>
+#include <climits>
+#include <iostream>
 #include <numeric>
 
-auto GetNeighborsPixels(const cv::Mat& img, int row, int col,
-                        std::array<uchar, kNeighborsPixelsSize>& p) -> void {
-  // p[n]값은 3x3에서 p1(2,2), p2(1,2), p3(1,3) ... p1 중심 시계 방향
-  const std::array<int, kNeighborsPixelsSize> kDeletaRow = {-1, -1, 0, 1, 1, 1, 0, -1};
-  const std::array<int, kNeighborsPixelsSize> kDeletaCol = {0, 1, 1, 1, 0, -1, -1, -1};
+#include "maze_cpp/algorithm.hpp"
+#include "opencv2/core/hal/interface.h"
+
+// 추후 c언어로 포팅할 것이기에 굳이 namespace를 사용하지 않음
+constexpr int kNeighborsPixelsSize = 8;
+constexpr int kBackgroundValue = 0;
+constexpr int kThinningValue = 1;
+constexpr int kMaxPixelColor = 255;
+constexpr int kMagicNumberSix = 6;
+
+// p[n]값은 3x3에서 p1(2,2), p2(1,2), p3(1,3) ... p1 중심 시계 방향
+constexpr std::array<int, kNeighborsPixelsSize> kDeletaRow = {-1, -1, 0, 1, 1, 1, 0, -1};
+constexpr std::array<int, kNeighborsPixelsSize> kDeletaCol = {0, 1, 1, 1, 0, -1, -1, -1};
+
+enum class NeighborsIndexs : uint8_t {
+  kP2 = 0,
+  kP3,
+  kP4,
+  kP5,
+  kP6,
+  kP7,
+  kP8,
+  kP9,
+};
+
+auto GetNeighborsPixels(const cv::Mat& img, int row, int col)
+    -> std::array<uchar, kNeighborsPixelsSize> {
+  std::array<uchar, kNeighborsPixelsSize> p{};
 
   // index[0]~index[7] -> p2~p9
   // (row, col)이 중심 p1
@@ -17,6 +40,8 @@ auto GetNeighborsPixels(const cv::Mat& img, int row, int col,
 
     p.at(i) = img.at<uchar>(neighbor_row, neighbor_col);
   }
+
+  return p;
 }
 
 auto CountConditionA(const std::array<uchar, kNeighborsPixelsSize>& p) -> int {
@@ -78,10 +103,9 @@ auto PerformThinningStep(const cv::Mat& processing_mat, cv::Mat& marker, int ste
         continue;
       }
 
-      std::array<uchar, kNeighborsPixelsSize> p{};
-      GetNeighborsPixels(processing_mat, i, j, p);
+      const auto kP = GetNeighborsPixels(processing_mat, i, j);
 
-      if (ShouldMarkPixel(p, step)) {
+      if (ShouldMarkPixel(kP, step)) {
         marker.at<uchar>(i, j) = kThinningValue;
       }
     }
@@ -93,14 +117,12 @@ auto ZhangSuenThinning(const cv::Mat& input_binary_image) -> cv::Mat {
     std::cerr << "[ERROR] CV_8UC1 형식의 바이너리 이미지 필요" << "\n";
     return cv::Mat{};
   }
-  const int kPixelIndexSix = 6;
 
   cv::Mat processing_mat;
   input_binary_image.convertTo(processing_mat, CV_8U, 1.0 / kMaxPixelColor);
   cv::Mat marker = cv::Mat::zeros(processing_mat.size(), CV_8UC1);
 
   bool is_running = true;
-
   while (is_running) {
     is_running = false;
 

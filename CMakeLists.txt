@@ -21,7 +21,8 @@ endif()
 add_library(${PROJECT_NAME}_lib STATIC)
 target_sources(${PROJECT_NAME}_lib
   PRIVATE
-    src/utils/zhang_suen_thinning.cpp
+    src/algorithm/zhang_suen_thinning.cpp
+    src/utils/binary_to_text.cpp
 )
 
 # 라이브러리 인클루드 경로 설정
