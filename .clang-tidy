@@ -1,0 +1,67 @@
+Checks:
+  - "bugprone-*"
+  - "readability-*"
+  - "performance-*"
+
+  - "clang-analyzer-*"
+  - "clang-analyzer-security-*"
+  - "clang-analyzer-unix-*"
+
+  - "-bugprone-easily-swappable-parameters"
+  - "-readability-magic-numbers"
+  - "-readability-identifier-length"
+  - "-bugprone-multi-level-implicit-pointer-conversion"
+
+# 모든 경고를 오류로 처리
+WarningsAsErrors: "*"
+
+# 프로젝트 내부 헤더만 검사
+HeaderFilterRegex: "^(src|include)/.*"
+
+FormatStyle: file
+
+# 각 체크별 세부 옵션 설정
+CheckOptions:
+  # 함수: (snake_case)
+  - key: readability-identifier-naming.FunctionCase
+    value: snake_case
+
+  # 일반 변수 및 파라미터: (snake_case)
+  - key: readability-identifier-naming.VariableCase
+    value: snake_case
+  - key: readability-identifier-naming.ParameterCase
+    value: snake_case
+
+  # 구조체 멤버 변수: (snake_case, 접미사 없음)
+  - key: readability-identifier-naming.MemberCase
+    value: snake_case
+  - key: readability-identifier-naming.MemberSuffix
+    value: ""
+  - key: readability-identifier-naming.MemberPrefix
+    value: ""
+  - key: readability-identifier-naming.PrivateMemberSuffix
+    value: ""
+
+  # 타입(구조체, Enum, typedef): (snake_case + _t 접미사)
+  - key: readability-identifier-naming.StructCase
+    value: snake_case
+  - key: readability-identifier-naming.StructSuffix
+    value: "_t"
+  - key: readability-identifier-naming.EnumCase
+    value: snake_case
+  - key: readability-identifier-naming.EnumSuffix
+    value: "_t"
+  - key: readability-identifier-naming.TypedefCase
+    value: snake_case
+  - key: readability-identifier-naming.TypedefSuffix
+    value: "_t"
+
+  # 상수 (const 변수) 및 Enum 값: (UPPER_CASE)
+  - key: readability-identifier-naming.ConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.ConstantPrefix
+    value: ""
+  - key: readability-identifier-naming.EnumConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.EnumConstantPrefix
+    value: ""

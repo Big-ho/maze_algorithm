@@ -1,0 +1,61 @@
+# 빌드 결과물
+/build/
+/bin/
+/out/
+
+# CMake 빌드 폴더 및 임시 파일
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+Testing/
+
+# Visual Studio Code 설정 및 캐시
+.vscode/*
+!.vscode/settings.json
+
+# macOS 시스템 파일
+.DS_Store
+
+# 컴파일러 임시 파일 및 로그
+*.o
+*.obj
+*.so
+*.exe
+*.dll
+*.log
+*.pdb
+
+# clangd 관련 임시 파일
+.clangd/
+
+compile_commands.json
+
+# clang-tidy 임시 파일
+.clang-tidy-cache/
+
+# 기타 임시 파일
+*.tmp
+*.temp
+
+# 테스트 결과나 커버리지 결과 (필요하면)
+coverage/
+*.gcda
+*.gcno
+
+# 백업 파일 및 편집기 임시 파일
+*~
+*.swp
+*.swo
+*.bak
+
+# 패키지 매니저 관련 (만약 사용 시)
+# e.g., vcpkg, Conan 등
+vcpkg_installed/
+conanbuildinfo.txt
+conaninfo.txt
+
+.cache/
+.vscode/
+
+asset/
