@@ -1,16 +1,17 @@
 Checks:
+  # - "google-*"
   - "bugprone-*"
   - "readability-*"
   - "performance-*"
-
   - "clang-analyzer-*"
-  - "clang-analyzer-security-*"
   - "clang-analyzer-unix-*"
 
+  # - "-clang-analyzer-security-*"
   - "-bugprone-easily-swappable-parameters"
   - "-readability-magic-numbers"
   - "-readability-identifier-length"
   - "-bugprone-multi-level-implicit-pointer-conversion"
+  - "-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling"
 
 # 모든 경고를 오류로 처리
 WarningsAsErrors: "*"
@@ -24,17 +25,21 @@ FormatStyle: file
 CheckOptions:
   # 함수: (snake_case)
   - key: readability-identifier-naming.FunctionCase
-    value: snake_case
+    # value: snake_case
+    value: lower_case
 
   # 일반 변수 및 파라미터: (snake_case)
   - key: readability-identifier-naming.VariableCase
-    value: snake_case
+    # value: snake_case
+    value: lower_case
   - key: readability-identifier-naming.ParameterCase
-    value: snake_case
+    # value: snake_case
+    value: lower_case
 
   # 구조체 멤버 변수: (snake_case, 접미사 없음)
   - key: readability-identifier-naming.MemberCase
-    value: snake_case
+    # value: snake_case
+    value: lower_case
   - key: readability-identifier-naming.MemberSuffix
     value: ""
   - key: readability-identifier-naming.MemberPrefix
@@ -44,15 +49,18 @@ CheckOptions:
 
   # 타입(구조체, Enum, typedef): (snake_case + _t 접미사)
   - key: readability-identifier-naming.StructCase
-    value: snake_case
+    # value: snake_case
+    value: lower_case
   - key: readability-identifier-naming.StructSuffix
     value: "_t"
   - key: readability-identifier-naming.EnumCase
-    value: snake_case
+    # value: snake_case
+    value: lower_case
   - key: readability-identifier-naming.EnumSuffix
     value: "_t"
   - key: readability-identifier-naming.TypedefCase
-    value: snake_case
+    # value: snake_case
+    value: lower_case
   - key: readability-identifier-naming.TypedefSuffix
     value: "_t"
 
