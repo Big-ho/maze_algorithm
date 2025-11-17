@@ -8,8 +8,8 @@
 #include <unistd.h>
 
 // 게임용 뷰어
-void display_2d_map(int **map, int hight, int width, point_t *human) {
-  for (int row = 0; row < hight; row++) {
+void display_2d_map(int **map, int height, int width, point_t *human) {
+  for (int row = 0; row < height; row++) {
     for (int col = 0; col < width; col++) {
       if (human && row == human->y && col == human->x) {
         // printf("\033[31m■\033[0m");
@@ -63,13 +63,13 @@ static int find_portal(const int *row, int row_index, int width,
 }
 
 // 입출구 찾기
-static int find_entry_exit(int **map, int hight, int width,
+static int find_entry_exit(int **map, int height, int width,
                            portal_pair_t *out_portal_pair) {
   int is_entry_found = 0;
   int is_exit_found = 0;
 
   is_exit_found = find_portal(map[0], 0, width, &out_portal_pair->exit_info);
-  is_entry_found = find_portal(map[hight - 1], hight - 1, width,
+  is_entry_found = find_portal(map[height - 1], height - 1, width,
                                &out_portal_pair->entry_info);
 
   return is_exit_found && is_entry_found;
@@ -106,19 +106,19 @@ int run_2d_custom_game() {
   // TEST: 현재 테스트용 맵 사용중, 추후 인자로 맵 할당
   // TODO: 도착지, 출발지, 맵 보여주는 것을 꾸미기?
   const char *test_map_path = "asset/map.txt";
-  int hight = 0;
+  int height = 0;
   int width = 0;
 
-  int **map = load_map_to_create_2darray(test_map_path, &hight, &width);
-  zhang_suen_thinning(map, hight, width);
+  int **map = load_map_to_create_2darray(test_map_path, &height, &width);
+  zhang_suen_thinning(map, height, width);
 
-  int reduced_map_size = estimate_reduce_map_size(hight);
+  int reduced_map_size = estimate_reduce_map_size(height);
   int **reduced_map = create_2d_array(reduced_map_size, reduced_map_size);
-  apply_reduce_map(map, reduced_map, hight, width, reduced_map_size);
+  apply_reduce_map(map, reduced_map, height, width, reduced_map_size);
   free_2d_array(map);
 
   // 축소 후 새로운 높이, 너비
-  hight = reduced_map_size;
+  height = reduced_map_size;
   width = reduced_map_size;
 
   if (reduced_map == NULL) {
@@ -127,7 +127,7 @@ int run_2d_custom_game() {
   }
 
   portal_pair_t entry_exit_info = {0};
-  if (find_entry_exit(reduced_map, hight, width, &entry_exit_info) != 0) {
+  if (find_entry_exit(reduced_map, height, width, &entry_exit_info) != 0) {
     return -1; // 입출구 찾기 실패
   };
 
@@ -135,14 +135,14 @@ int run_2d_custom_game() {
       (entry_exit_info.entry_info.start.x + entry_exit_info.entry_info.end.x) /
       2;
 
-  point_t human = {entry_center, hight - 1}; // (x,y)
+  point_t human = {entry_center, height - 1}; // (x,y)
 
   int is_running = 1;
   init_term();
   while (is_running) {
     render();
     int original_value = reduced_map[human.y][human.x];
-    display_2d_map(reduced_map, hight, width, &human);
+    display_2d_map(reduced_map, height, width, &human);
     reduced_map[human.y][human.x] = original_value;
 
     if (kbhit()) {
@@ -156,7 +156,7 @@ int run_2d_custom_game() {
         human.x == entry_exit_info.exit_info.end.x) {
       is_running = 0;
       render();
-      display_2d_map(reduced_map, hight, width, &human);
+      display_2d_map(reduced_map, height, width, &human);
       printf("\n 축하합니다~ \n");
       sleep_ms(2000);
     }
