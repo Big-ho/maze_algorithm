@@ -19,4 +19,4 @@ typedef enum {
 extern const int DELTA_ROW[NEIGHBOR_PIXEL_SIZE];
 extern const int DELTA_COL[NEIGHBOR_PIXEL_SIZE];
 
-int zhang_suen_thinning(int **out_map, int hight, int width);
+int zhang_suen_thinning(int **out_map, int height, int width);

@@ -147,19 +147,19 @@ static int close_map_boundaries_bug(int **map, int size) {
  *
  * @param map 기존 크기 맵
  * @param out_reduced_map 축소 후 맵
- * @param hight 행 사이즈
+ * @param height 행 사이즈
  * @param width 열 사이즈
  * @param reduced_map_size 축소 크기 (estimate_reduce_map_size() 함수 리턴 값)
  */
-int apply_reduce_map(int **map, int **out_reduced_map, int hight, int width,
+int apply_reduce_map(int **map, int **out_reduced_map, int height, int width,
                      int reduced_map_size) {
-  if (width != hight) { // 일단은 정사각형으로 가정
+  if (width != height) { // 일단은 정사각형으로 가정
     fprintf(stderr, "[ERROR] 맵이 정사각형이 아닙니다");
     return -1;
   }
 
   printf("[INFO] 원본 ( %d * %d )에서 ( %d * %d )로 축소됩니다.\n", width,
-         hight, reduced_map_size, reduced_map_size);
+         height, reduced_map_size, reduced_map_size);
   if (pooling(map, out_reduced_map, width, reduced_map_size) == !0) {
     fprintf(stderr, "[ERROR] Pooling 실패\n");
     return -1;

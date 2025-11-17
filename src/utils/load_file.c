@@ -6,12 +6,12 @@
  * @brief txt 파일에서 맵 데이터를 읽어서 2차원 배열로 반환
  *
  * @param filename 읽을 파일 주소
- * @param out_hight 행 사이즈
+ * @param out_height 행 사이즈
  * @param out_width 열 사이즈
  *
  * @return int** 2차원 배열
  */
-int **load_map_to_create_2darray(const char *filename, int *out_hight,
+int **load_map_to_create_2darray(const char *filename, int *out_height,
                                  int *out_width) {
   FILE *f = fopen(filename, "r");
   if (!f) {
@@ -49,7 +49,7 @@ int **load_map_to_create_2darray(const char *filename, int *out_hight,
       map[i][j] = val;
     }
   }
-  *out_hight = rows;
+  *out_height = rows;
   *out_width = cols;
   fclose(f);
   return map;

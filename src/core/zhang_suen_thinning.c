@@ -104,14 +104,14 @@ static int is_delete_pixel(const int *p, thinning_step_t step) {
 }
 
 // 지울 픽셀 마킹하기
-static int mark_delete_pixels(int **map, int **out_marker, int hight, int width,
+static int mark_delete_pixels(int **map, int **out_marker, int height, int width,
                               thinning_step_t step) {
   if (map == NULL || out_marker == NULL) {
     return -1;
   }
 
-  memset(out_marker[0], 0, (size_t)hight * width * sizeof(int));
-  for (int row = 1; row < hight - 1; row++) {
+  memset(out_marker[0], 0, (size_t)height * width * sizeof(int));
+  for (int row = 1; row < height - 1; row++) {
     for (int col = 1; col < width - 1; col++) {
       if (map[row][col] == BACKGORUND_VALUE) {
         continue;
@@ -128,13 +128,13 @@ static int mark_delete_pixels(int **map, int **out_marker, int hight, int width,
 }
 
 // 2차원 배열 안에 0이 아닌 것들 개수 반환
-static int count_non_zero(int **map, int hight, int width) {
+static int count_non_zero(int **map, int height, int width) {
   if (map == NULL) {
     return 0;
   }
 
   int count = 0;
-  for (int row = 0; row < hight; row++) {
+  for (int row = 0; row < height; row++) {
     for (int col = 0; col < width; col++) {
       if (map[row][col] != 0) {
         count++;
@@ -145,14 +145,14 @@ static int count_non_zero(int **map, int hight, int width) {
 }
 
 // 지울 픽셀을 실질적으로 지우기
-static int is_apply_delete_pixels(int **out_map, int **marker, int hight,
+static int is_apply_delete_pixels(int **out_map, int **marker, int height,
                                   int width, thinning_step_t step) {
-  mark_delete_pixels(out_map, marker, hight, width, step);
+  mark_delete_pixels(out_map, marker, height, width, step);
 
-  if (count_non_zero(marker, hight, width) == 0) {
+  if (count_non_zero(marker, height, width) == 0) {
     return 0;
   }
-  for (int row = 0; row < hight; row++) {
+  for (int row = 0; row < height; row++) {
     for (int col = 0; col < width; col++) {
       if (marker[row][col]) {
         out_map[row][col] = BACKGORUND_VALUE;
@@ -169,28 +169,28 @@ static int is_apply_delete_pixels(int **out_map, int **marker, int hight,
  * https://rosettacode.org/wiki/Zhang-Suen_thinning_algorithm
  *
  * @param out_map 수정할 맵
- * @param hight 행 사이즈
+ * @param height 행 사이즈
  * @param width 열 사이즈
  */
-int zhang_suen_thinning(int **out_map, int hight, int width) {
+int zhang_suen_thinning(int **out_map, int height, int width) {
   if (out_map == NULL) {
     return -1;
   }
 
   int is_runing = 1;
-  int **marker = create_2d_array(hight, width);
+  int **marker = create_2d_array(height, width);
 
   while (is_runing) {
     is_runing = 0;
 
     // Step 1
-    if (is_apply_delete_pixels(out_map, marker, hight, width,
+    if (is_apply_delete_pixels(out_map, marker, height, width,
                                THINNING_STEP_1)) {
       is_runing = 1;
     }
 
     // Step 2
-    if (is_apply_delete_pixels(out_map, marker, hight, width,
+    if (is_apply_delete_pixels(out_map, marker, height, width,
                                THINNING_STEP_2)) {
       is_runing = 1;
     }

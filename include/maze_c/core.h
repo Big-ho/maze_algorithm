@@ -20,7 +20,7 @@ typedef struct {
   portal_info_t exit_info;
 } portal_pair_t;
 
-void display_2d_map(int **map, int hight, int width, point_t *human);
+void display_2d_map(int **map, int height, int width, point_t *human);
 int run_2d_custom_game();
 int run_2d_random_game();
 

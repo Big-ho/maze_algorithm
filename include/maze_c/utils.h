@@ -12,10 +12,10 @@ enum { // 최대 맵 크기, 최소 맵 크기
   MIN_MAP_DIMENSION = 5,
 };
 int display_2d_array(int **arr, int rows, int cols);
-int **load_map_to_create_2darray(const char *filename, int *out_hight,
+int **load_map_to_create_2darray(const char *filename, int *out_height,
                                  int *out_width);
 
 // --- memory ---
 int *create_int_arr(int size);
-int **create_2d_array(int hight, int width);
+int **create_2d_array(int height, int width);
 void free_2d_array(int **arr);
