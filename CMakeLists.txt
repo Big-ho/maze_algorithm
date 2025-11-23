@@ -20,6 +20,7 @@ target_sources(${PROJECT_NAME}_lib
     src/core/game.c
     src/core/zhang_suen_thinning.c
     src/core/pooling.c
+    src/core/image_reader.c
 
 )
 
