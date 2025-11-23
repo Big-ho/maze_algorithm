@@ -1,6 +1,5 @@
 #include "maze_c/image_reader.h"
 
-#include <assert.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,7 +35,7 @@ void free_bmp(rgb_quad_t **img, int height) {
   free(img);
 }
 
-rgb_quad_t **load_bmp(const char *filename, int *height, int *width) {
+rgb_quad_t **load_bmp(const char *filename, int *out_height, int *out_width) {
   FILE *f = fopen(filename, "r");
   if (!f) {
     perror("bmp 파일을 열 수 없습니다\n");
@@ -61,10 +60,13 @@ rgb_quad_t **load_bmp(const char *filename, int *height, int *width) {
     return NULL;
   }
 
-  *width = info_header.bi_width;
-  *height = abs(info_header.bi_height);
+  *out_height = abs(info_header.bi_height);
+  *out_width = info_header.bi_width;
 
-  rgb_quad_t **img = create_bmp(*height, *width);
+  int height = *out_height;
+  int width = *out_width;
+
+  rgb_quad_t **img = create_bmp(height, width);
   if (img == NULL) {
     fprintf(stderr, "[ERROR] 메모리 할당 실패\n");
     fclose(f);
@@ -73,16 +75,16 @@ rgb_quad_t **load_bmp(const char *filename, int *height, int *width) {
 
   fseek(f, file_header.bf_offbits, SEEK_SET);
 
-  int padding = (4 - (*width * 3) % 4) % 4;
+  int padding = (4 - (width * 3) % 4) % 4;
 
   unsigned char pixel_buf[3];
 
-  for (int row = *height - 1; row >= 0; row--) {
-    if (row < 0 || row >= *height) {
+  for (int row = height - 1; row >= 0; row--) {
+    if (row < 0 || row >= height) {
       break;
     }
-    for (int col = 0; col < *width; col++) {
-      if (col < 0 || col >= *width) {
+    for (int col = 0; col < width; col++) {
+      if (col < 0 || col >= width) {
         break;
       }
       if (fread(pixel_buf, 1, 3, f) != 3) {

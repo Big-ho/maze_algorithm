@@ -37,6 +37,6 @@ enum {
   MAX_MAZE_SIZE = 1000,
 };
 
-rgb_quad_t **load_bmp(const char *filename, int *height, int *width);
+rgb_quad_t **load_bmp(const char *filename, int *out_height, int *out_width);
 void free_bmp(rgb_quad_t **img, int height);
 rgb_quad_t **create_bmp(int height, int width);
