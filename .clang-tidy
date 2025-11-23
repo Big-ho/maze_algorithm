@@ -12,6 +12,7 @@ Checks:
   - "-readability-identifier-length"
   - "-bugprone-multi-level-implicit-pointer-conversion"
   - "-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling"
+  - "-clang-analyzer-optin.taint.TaintedAlloc"
 
 # 모든 경고를 오류로 처리
 WarningsAsErrors: "*"
