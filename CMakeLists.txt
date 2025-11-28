@@ -10,17 +10,17 @@ add_library(${PROJECT_NAME}_lib STATIC)
 target_sources(${PROJECT_NAME}_lib
   PRIVATE
     # utils
-    src/utils/display_2d_array.c
+    src/utils/print_arr.c
     src/utils/load_file.c
     src/utils/memory.c
     src/utils/terminal.c
     # core
     src/core/2d_map.c
-    src/core/3d_map.c
     src/core/game.c
     src/core/zhang_suen_thinning.c
     src/core/pooling.c
     src/core/image_reader.c
+    src/core/otsu_thresholding.c
 
 )
 

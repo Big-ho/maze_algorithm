@@ -1,6 +1,8 @@
 #include "maze_c/core.h"
+#include "maze_c/image_reader.h"
 #include "maze_c/pooling.h"
 #include "maze_c/thinning.h"
+#include "maze_c/thresholding.h"
 #include "maze_c/utils.h"
 
 #include <stdio.h>
@@ -103,19 +105,24 @@ static int process_input(int **map, int key, point_t *out_p) {
 
 // 2d 커스텀 게임
 int run_2d_custom_game() {
-  // TEST: 현재 테스트용 맵 사용중, 추후 인자로 맵 할당
-  // TODO: 도착지, 출발지, 맵 보여주는 것을 꾸미기?
-  const char *test_map_path = "asset/map.txt";
+  const char *test_map_path = "image/maze10by10.bmp";
   int height = 0;
   int width = 0;
 
-  int **map = load_map_to_create_2darray(test_map_path, &height, &width);
-  zhang_suen_thinning(map, height, width);
+  // bmp 이미지 파일 읽고 바이너리 배열로 변경
+  rgb_quad_t **bmp_2d_arr = load_bmp(test_map_path, &height, &width);
+  int **binary_2d_arr = create_2d_array(height, width);
+  otsu_thresholding(bmp_2d_arr, binary_2d_arr, height, width);
+  free_bmp(bmp_2d_arr);
 
+  // 세선화 알고리즘 적용
+  zhang_suen_thinning(binary_2d_arr, height, width);
+
+  // 맵 축소 적용
   int reduced_map_size = estimate_reduce_map_size(height);
   int **reduced_map = create_2d_array(reduced_map_size, reduced_map_size);
-  apply_reduce_map(map, reduced_map, height, width, reduced_map_size);
-  free_2d_array(map);
+  apply_reduce_map(binary_2d_arr, reduced_map, height, width, reduced_map_size);
+  free_2d_array(binary_2d_arr);
 
   // 축소 후 새로운 높이, 너비
   height = reduced_map_size;

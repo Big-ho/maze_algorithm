@@ -160,7 +160,7 @@ int apply_reduce_map(int **map, int **out_reduced_map, int height, int width,
 
   printf("[INFO] 원본 ( %d * %d )에서 ( %d * %d )로 축소됩니다.\n", width,
          height, reduced_map_size, reduced_map_size);
-  if (pooling(map, out_reduced_map, width, reduced_map_size) == !0) {
+  if (pooling(map, out_reduced_map, width, reduced_map_size) != 0) {
     fprintf(stderr, "[ERROR] Pooling 실패\n");
     return -1;
   }

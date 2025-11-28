@@ -24,7 +24,7 @@ rgb_quad_t **create_bmp(int height, int width) {
   return img; // NOLINT(clang-analyzer-unix.Malloc)
 }
 
-void free_bmp(rgb_quad_t **img, int height) {
+void free_bmp(rgb_quad_t **img) {
   if (img == NULL) {
     return;
   }
@@ -36,7 +36,7 @@ void free_bmp(rgb_quad_t **img, int height) {
 }
 
 rgb_quad_t **load_bmp(const char *filename, int *out_height, int *out_width) {
-  FILE *f = fopen(filename, "r");
+  FILE *f = fopen(filename, "rb");
   if (!f) {
     perror("bmp 파일을 열 수 없습니다\n");
     return NULL;
@@ -52,11 +52,16 @@ rgb_quad_t **load_bmp(const char *filename, int *out_height, int *out_width) {
     return NULL;
   };
 
-  if (file_header.bf_type != 0x4D42 && file_header.bf_type != 0x424D ||
-      info_header.bi_bit_count != 32) {
+  if (file_header.bf_type != 0x4D42) {
+    fprintf(stderr, "[ERROR] BMP 파일이 아님 %d\n", file_header.bf_type);
     fclose(f);
-    fprintf(stderr, "[ERROR] BMP 포맷 에러, 타입: %d 비트: %d\n",
-            file_header.bf_type, info_header.bi_bit_count);
+    return NULL;
+  }
+
+  if (info_header.bi_bit_count != 24 && info_header.bi_bit_count != 32) {
+    fprintf(stderr, "[ERROR] 지원하지 않는 비트 수 %d\n",
+            info_header.bi_bit_count);
+    fclose(f);
     return NULL;
   }
 
@@ -75,9 +80,10 @@ rgb_quad_t **load_bmp(const char *filename, int *out_height, int *out_width) {
 
   fseek(f, file_header.bf_offbits, SEEK_SET);
 
-  int padding = (4 - (width * 3) % 4) % 4;
+  int bytes_per_pixel = info_header.bi_bit_count / 8;
+  int padding = (4 - (width * bytes_per_pixel) % 4) % 4;
 
-  unsigned char pixel_buf[3];
+  unsigned char pixel_buf[4];
 
   for (int row = height - 1; row >= 0; row--) {
     if (row < 0 || row >= height) {
@@ -87,8 +93,11 @@ rgb_quad_t **load_bmp(const char *filename, int *out_height, int *out_width) {
       if (col < 0 || col >= width) {
         break;
       }
-      if (fread(pixel_buf, 1, 3, f) != 3) {
-        break;
+      if (fread(pixel_buf, 1, bytes_per_pixel, f) != bytes_per_pixel) {
+        fprintf(stderr, "[ERROR] 이미지 데이터 읽기 실패\n");
+        free_bmp(img);
+        fclose(f);
+        return NULL;
       }
 
       // NOLINTNEXTLINE(clang-analyzer-security.ArrayBound)

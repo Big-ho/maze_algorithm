@@ -38,5 +38,5 @@ enum {
 };
 
 rgb_quad_t **load_bmp(const char *filename, int *out_height, int *out_width);
-void free_bmp(rgb_quad_t **img, int height);
+void free_bmp(rgb_quad_t **img);
 rgb_quad_t **create_bmp(int height, int width);
