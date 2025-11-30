@@ -2,7 +2,6 @@
 
 #include "stddef.h"
 
-// 주요 상수 값 (가독성 & 유지보수 측면)
 enum {
   NEIGHBOR_PIXEL_SIZE = 8,
   BACKGORUND_VALUE = 0,
@@ -14,9 +13,9 @@ enum {
 typedef enum {
   THINNING_STEP_1 = 0,
   THINNING_STEP_2 = 1,
-} thinning_step_t;
+} ThinningStep;
 
 extern const int DELTA_ROW[NEIGHBOR_PIXEL_SIZE];
 extern const int DELTA_COL[NEIGHBOR_PIXEL_SIZE];
 
-int zhang_suen_thinning(int **out_map, int height, int width);
+int zhang_suen_thinning(int **out_map, int width, int height);

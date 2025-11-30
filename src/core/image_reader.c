@@ -4,14 +4,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-rgb_quad_t **create_bmp(int height, int width) {
-  rgb_quad_t **img = malloc(height * sizeof(rgb_quad_t *));
+ColorRGB **create_bmp(int height, int width) {
+  ColorRGB **img = malloc(height * sizeof(ColorRGB *));
   if (img == NULL) {
     perror("[ERROR] 이미지 메모리 할당 실패 (행)\n");
     return NULL;
   }
 
-  rgb_quad_t *data = calloc((size_t)height * width, sizeof(rgb_quad_t));
+  ColorRGB *data = calloc((size_t)height * width, sizeof(ColorRGB));
   if (data == NULL) {
     perror("[ERROR] 이미지 메모리 할당 실패 (열)\n");
     free(img);
@@ -24,7 +24,7 @@ rgb_quad_t **create_bmp(int height, int width) {
   return img; // NOLINT(clang-analyzer-unix.Malloc)
 }
 
-void free_bmp(rgb_quad_t **img) {
+void free_bmp(ColorRGB **img) {
   if (img == NULL) {
     return;
   }
@@ -35,15 +35,15 @@ void free_bmp(rgb_quad_t **img) {
   free(img);
 }
 
-rgb_quad_t **load_bmp(const char *filename, int *out_height, int *out_width) {
+ColorRGB **load_bmp(const char *filename, int *out_width, int *out_height) {
   FILE *f = fopen(filename, "rb");
   if (!f) {
     perror("bmp 파일을 열 수 없습니다\n");
     return NULL;
   }
 
-  bitmap_file_header_t file_header;
-  bitmap_info_header_t info_header;
+  BitmapFileHeader file_header;
+  BitmapInfoHeader info_header;
 
   if (fread(&file_header, sizeof file_header, 1, f) != 1 ||
       fread(&info_header, sizeof info_header, 1, f) != 1) {
@@ -71,7 +71,7 @@ rgb_quad_t **load_bmp(const char *filename, int *out_height, int *out_width) {
   int height = *out_height;
   int width = *out_width;
 
-  rgb_quad_t **img = create_bmp(height, width);
+  ColorRGB **img = create_bmp(height, width);
   if (img == NULL) {
     fprintf(stderr, "[ERROR] 메모리 할당 실패\n");
     fclose(f);

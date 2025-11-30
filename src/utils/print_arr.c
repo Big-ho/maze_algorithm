@@ -1,4 +1,4 @@
-#include "maze_c/image_reader.h"
+#include "maze_c/types.h"
 #include <stdio.h>
 
 // 테스트용 출력 유틸
@@ -12,7 +12,7 @@ void print_2d_array(int **arr, int height, int width) {
   printf("\n=======================================================\n");
 }
 
-void print_rgb_array(rgb_quad_t **arr, int height, int width) {
+void print_rgb_array(ColorRGB **arr, int height, int width) {
   for (int row = 0; row < height; row++) {
     for (int col = 0; col < height; col++) {
       printf("(%d %d %d) ", arr[row][col].red, arr[row][col].green,

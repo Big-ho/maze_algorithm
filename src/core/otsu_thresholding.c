@@ -1,8 +1,8 @@
-#include "maze_c/image_reader.h"
 #include "maze_c/thresholding.h"
+
 #include "stddef.h"
 
-static unsigned char to_grayscale(rgb_quad_t pixel) {
+static unsigned char to_grayscale(ColorRGB pixel) {
   // 그레이스케일 변환
   int gray = (pixel.red * RED_WEIGHT + pixel.green * GREEN_WEIGHT +
               pixel.blue * BLUE_WEIGHT) /
@@ -17,7 +17,7 @@ static unsigned char to_grayscale(rgb_quad_t pixel) {
   return (unsigned char)gray;
 }
 
-static void create_histogram(rgb_quad_t **img, int *out_hist, int height,
+static void create_histogram(ColorRGB **img, int *out_hist, int height,
                              int width) {
   for (int row = 0; row < height; row++) {
     for (int col = 0; col < width; col++) {
@@ -73,8 +73,8 @@ static int find_threshold(const int *hist, int height, int width) {
   return optimal_threshold;
 }
 
-int otsu_thresholding(rgb_quad_t **img, int **out_binary_map, int height,
-                      int width) {
+int otsu_thresholding(ColorRGB **img, int **out_binary_map, int width,
+                      int height) {
   if (img == NULL || height <= 0 || width <= 0) {
     return -1;
   }

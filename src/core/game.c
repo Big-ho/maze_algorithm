@@ -1,80 +1,59 @@
 #include "maze_c/game.h"
 
-#include "maze_c/core.h"
-#include <stddef.h>
+#include "maze_c/types.h"
+
 #include <stdio.h>
 
-static const char *map_type_list[MAP_COUNT + 1] = {"Custom", "Random", "EXIT"};
-
-// 게임 실행하는 함수 포인터 타입
-typedef int (*game_runner_func_t)(void);
-
-// 입력 버퍼 지우는 유틸
-static void buffer_clear() {
-  int c;
-  while ((c = getchar()) != '\n' && c != EOF) {
-  }
-}
-
-// 선택한 맵 타입 유효성 확인
-static int is_valid_map(int index) { return (index >= 0 && index < MAP_COUNT); }
-
-// 선택 관리 유틸
-static int select_choice(int max) {
-  int selected = 0;
-
-  if (scanf("%d", &selected) != 1) {
-    fprintf(stderr, "[ERROR] 숫자를 입력해주세요\n");
-    buffer_clear();
-    return -1;
-  }
-
-  if (selected < 1 || selected > max) {
-    fprintf(stderr, "[ERROR] 1~%d 정해진 범위 내 번호를 선택해주세요.\n", max);
-    buffer_clear();
-    return -1;
-  }
-
-  return selected;
-}
-
-// 맵 타입 선택 관리 & 선택 주소 반환
-static int select_map_return_index() {
-  printf("\n[%s]\n", "Select Map Type");
-
-  for (int i = 0; i < MAP_COUNT; i++) {
-    printf("%d. %s\n", i + 1, map_type_list[i]);
-  }
-  printf("%d. EXIT\n", MAP_COUNT + 1);
-
-  int choice = select_choice(MAP_COUNT + 1);
-  if (choice == -1) {
-    return MAP_EXIT;
-  }
-  if (choice == MAP_COUNT + 1) {
-    return MAP_EXIT;
-  }
-
-  return choice - 1;
-}
-
-// 각 게임 실행 함수를 위한 2D 디스패치 테이블
-static game_runner_func_t game_dispatch_table[MAP_COUNT] = {run_2d_custom_game,
-                                                            run_2d_random_game};
-
-// 게임 실행을 위한 메인 루프 함수
-int game_loop() {
-  while (1) {
-    int selectd_map_index = select_map_return_index();
-    if (selectd_map_index == MAP_EXIT) {
-      break;
+void display_map(Map map) {
+  for (int row = 0; row < map.height; row++) {
+    for (int col = 0; col < map.width; col++) {
+      if (col == map.player.x && row == map.player.y) { // 플레이어
+        printf("O");
+      } else if (col == map.tracker.x && row == map.tracker.y) { // 추격자
+        printf("X");
+      } else if (map.grid[row][col] == 1) { // 벽
+        printf("#");
+      } else if (col == map.exit.x && row == map.exit.y) { // 추격자
+        printf("E");
+      } else {
+        printf(" ");
+      }
     }
-    if (!is_valid_map(selectd_map_index)) {
-      break;
-    }
+    putchar('\n');
+  }
+}
 
-    game_dispatch_table[selectd_map_index]();
+void render() { printf("\033[H\033[J"); }
+
+int process_input(Map *map, int key) {
+  if (key == 113 || key == 81) { // q
+    return 1;                    // 종료
+  }
+  int nx = map->player.x;
+  int ny = map->player.y;
+
+  if (key == 119 || key == 87) {
+    ny -= 1; // 위
+  } else if (key == 97 || key == 65) {
+    nx -= 1; // 왼
+  } else if (key == 115 || key == 83) {
+    ny += 1; // 아
+  } else if (key == 100 || key == 68) {
+    nx += 1; // 오
+  }
+
+  if (nx < 0 || nx >= map->width || ny < 0 || ny >= map->height) {
+    return 0;
+  }
+
+  if (map->grid[ny][nx] != 1) {
+    map->player.x = nx;
+    map->player.y = ny;
   }
 
   return 0;
+}
+
+int is_clear(Map map) {
+  return map.player.x == map.exit.x && map.player.y == map.exit.y;
 }

@@ -1,4 +1,5 @@
 #include "maze_c/utils.h"
+
 #include <stddef.h>
 #include <stdio.h>
 
@@ -23,13 +24,6 @@ int **load_map_to_create_2darray(const char *filename, int *out_height,
   int cols = 0;
   if (fscanf(f, "Rows: %d, Cols: %d", &rows, &cols) != 2) {
     fprintf(stderr, "[ERROR] 파일 형식 오류 (Rows/Cols)\n");
-    fclose(f);
-    return NULL;
-  }
-
-  if (rows <= MIN_MAP_DIMENSION || cols <= MIN_MAP_DIMENSION ||
-      rows > MAX_MAP_DIMENSION || cols > MAX_MAP_DIMENSION) {
-    fprintf(stderr, "[ERROR] 맵 크기가 유효하지 않습니다.\n");
     fclose(f);
     return NULL;
   }

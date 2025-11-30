@@ -51,19 +51,19 @@ CheckOptions:
   # 타입(구조체, Enum, typedef): (snake_case + _t 접미사)
   - key: readability-identifier-naming.StructCase
     # value: snake_case
-    value: lower_case
-  - key: readability-identifier-naming.StructSuffix
-    value: "_t"
+    value: CamelCase
+  # - key: readability-identifier-naming.StructSuffix
+  #   value: "_T"
   - key: readability-identifier-naming.EnumCase
     # value: snake_case
-    value: lower_case
-  - key: readability-identifier-naming.EnumSuffix
-    value: "_t"
+    value: CamelCase
+  # - key: readability-identifier-naming.EnumSuffix
+  #   value: ""
   - key: readability-identifier-naming.TypedefCase
     # value: snake_case
-    value: lower_case
-  - key: readability-identifier-naming.TypedefSuffix
-    value: "_t"
+    value: CamelCase
+  # - key: readability-identifier-naming.TypedefSuffix
+  #   value: "_T"
 
   # 상수 (const 변수) 및 Enum 값: (UPPER_CASE)
   - key: readability-identifier-naming.ConstantCase

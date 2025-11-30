@@ -15,7 +15,7 @@ int *create_int_arr(int size) {
 }
 
 // (int)형 2차원 동적 메모리 할당 함수
-int **create_2d_array(int height, int width) {
+int **create_2d_array(int width, int height) {
   int **arr = (int **)malloc(height * sizeof(int *));
   if (arr == NULL) {
     perror("[ERROR] 메모리 할당 실패 (행)");

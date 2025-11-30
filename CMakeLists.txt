@@ -14,13 +14,16 @@ target_sources(${PROJECT_NAME}_lib
     src/utils/load_file.c
     src/utils/memory.c
     src/utils/terminal.c
+    src/utils/select_menu.c
+    src/utils/linear_queue.c
     # core
-    src/core/2d_map.c
     src/core/game.c
     src/core/zhang_suen_thinning.c
     src/core/pooling.c
     src/core/image_reader.c
     src/core/otsu_thresholding.c
+    src/core/run_custom.c
+    src/core/map.c
 
 )
 

@@ -1,8 +1,8 @@
 #pragma once
 
-enum { MAP_COUNT = 2 };
+#include "maze_c/types.h"
 
-// 맵 타입 선택 관리 상수
-enum { MAP_CUSTOM = 1, MAP_RANDOM, MAP_EXIT };
-
-int game_loop();
+void display_map(Map map);
+void render();
+int process_input(Map *map, int key);
+int is_clear(Map map);

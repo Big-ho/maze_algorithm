@@ -151,7 +151,7 @@ static int close_map_boundaries_bug(int **map, int size) {
  * @param width 열 사이즈
  * @param reduced_map_size 축소 크기 (estimate_reduce_map_size() 함수 리턴 값)
  */
-int apply_reduce_map(int **map, int **out_reduced_map, int height, int width,
+int apply_reduce_map(int **map, int **out_reduced_map, int width, int height,
                      int reduced_map_size) {
   if (width != height) { // 일단은 정사각형으로 가정
     fprintf(stderr, "[ERROR] 맵이 정사각형이 아닙니다");

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "maze_c/image_reader.h"
+#include "maze_c/types.h"
 
 enum {
   RED_WEIGHT = 299,
@@ -8,5 +8,5 @@ enum {
   BLUE_WEIGHT = 114,
 };
 
-int otsu_thresholding(rgb_quad_t **img, int **out_binary_map, int height,
-                      int width);
+int otsu_thresholding(ColorRGB **img, int **out_binary_map, int width,
+                      int height);

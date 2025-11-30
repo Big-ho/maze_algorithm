@@ -68,7 +68,7 @@ static int get_condition_a_b(const int *p, int *out_count, int *out_sum) {
 }
 
 // 세선화 알고리즘 조건을 적용하여 지울 픽셀인지 확인하기
-static int is_delete_pixel(const int *p, thinning_step_t step) {
+static int is_delete_pixel(const int *p, ThinningStep step) {
   int condition_a_count = 0;
   int condition_b_sum = 0;
   get_condition_a_b(p, &condition_a_count, &condition_b_sum);
@@ -104,8 +104,8 @@ static int is_delete_pixel(const int *p, thinning_step_t step) {
 }
 
 // 지울 픽셀 마킹하기
-static int mark_delete_pixels(int **map, int **out_marker, int height, int width,
-                              thinning_step_t step) {
+static int mark_delete_pixels(int **map, int **out_marker, int height,
+                              int width, ThinningStep step) {
   if (map == NULL || out_marker == NULL) {
     return -1;
   }
@@ -146,7 +146,7 @@ static int count_non_zero(int **map, int height, int width) {
 
 // 지울 픽셀을 실질적으로 지우기
 static int is_apply_delete_pixels(int **out_map, int **marker, int height,
-                                  int width, thinning_step_t step) {
+                                  int width, ThinningStep step) {
   mark_delete_pixels(out_map, marker, height, width, step);
 
   if (count_non_zero(marker, height, width) == 0) {
@@ -172,13 +172,13 @@ static int is_apply_delete_pixels(int **out_map, int **marker, int height,
  * @param height 행 사이즈
  * @param width 열 사이즈
  */
-int zhang_suen_thinning(int **out_map, int height, int width) {
+int zhang_suen_thinning(int **out_map, int width, int height) {
   if (out_map == NULL) {
     return -1;
   }
 
   int is_runing = 1;
-  int **marker = create_2d_array(height, width);
+  int **marker = create_2d_array(width, height);
 
   while (is_runing) {
     is_runing = 0;
