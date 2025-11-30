@@ -11,3 +11,7 @@ png 파일을 bmp로 변환
 ## Step 3
 
 <code>./script/build_run.sh</code> 실행
+
+## Step 4
+
+조작 wasd
