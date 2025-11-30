@@ -12,20 +12,22 @@ _프로그래밍 실습 – 개인 프로젝트_
 - ✅ **Game Program Tool**
 - ✅ **2D Map Display**
 - ✅ **2D Game (Test Map)**
+- ✅ **Image Reader**
+- ✅ **Image → Binary File 변환**
+- ✅ **BFS**
+- ✅ **추격자 알고리즘**
 
 ---
 
-### 🔄 개발 예정
+### 😢 개발 실패
 
-- ⬜ **Image Reader**
-- ⬜ **Image → Binary File 변환**
-- ⬜ **2D Game (Custom Map)**
-- ⬜ **3D Game (Prototype)**
-- ⬜ **3D Game (Release)**
-- ⬜ **Random Map 생성** (TBC)
-- ⬜ **Map Solver – DFS** (TBC)
-- ⬜ **Map Solver – BFS** (TBC)
-- ⬜ **Map Solver – A\*** (TBC)
+- ❌ **2D Game (Custom Map)**
+- ❌ **3D Game (Prototype)**
+- ❌ **3D Game (Release)**
+- ❌ **Random Map 생성** (TBC)
+- ❌ **Map Solver – DFS** (TBC)
+- ❌ **Map Solver – BFS** (TBC)
+- ❌ **Map Solver – A\*** (TBC)
 
 ---
 
@@ -54,7 +56,7 @@ int is_collision();
 
 #### 🔸 b. `out\_` (Output Parameter Prefix)
 
-포인터 인자로 값을 출력하는 경우 사용합니다.
+포인터 인자로 값을 출력하는 경우 사용합니다. (최근 코드에서는 미사용)
 
 예:
 

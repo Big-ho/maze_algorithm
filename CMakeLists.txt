@@ -24,6 +24,7 @@ target_sources(${PROJECT_NAME}_lib
     src/core/otsu_thresholding.c
     src/core/run_custom.c
     src/core/map.c
+    src/core/bfs_tracker.c
 
 )
 

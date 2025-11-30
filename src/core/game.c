@@ -3,6 +3,21 @@
 #include "maze_c/types.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+
+int get_dynamic_tracker_delay(Point p1, Point p2, int base) {
+  int distance = abs(p1.x - p2.x) + abs(p1.y - p2.y);
+  int dynamic_delay = base - distance;
+
+  if (dynamic_delay < 3) {
+    return 3;
+  }
+  if (dynamic_delay > base) {
+    return base;
+  }
+
+  return dynamic_delay;
+}
 
 void display_map(Map map) {
   for (int row = 0; row < map.height; row++) {
@@ -56,4 +71,8 @@ int process_input(Map *map, int key) {
 
 int is_clear(Map map) {
   return map.player.x == map.exit.x && map.player.y == map.exit.y;
+}
+
+int is_gameover(Map map) {
+  return map.player.x == map.tracker.x && map.player.y == map.tracker.y;
 }
