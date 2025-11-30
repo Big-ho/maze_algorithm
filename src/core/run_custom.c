@@ -16,7 +16,7 @@ int run_custom_game(Map *map) {
   const int FPS_DELAY = 30;
   const int WAIT_TIME = 3;
   const int TRACKER_DELAY_TICK = WAIT_TIME * (1000 / FPS_DELAY);
-  const int TRACKER_BASE_SPEED = 15;
+  const int TRACKER_BASE_SPEED = 30;
 
   while (1) {
     render();
