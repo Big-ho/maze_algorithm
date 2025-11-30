@@ -1,5 +1,31 @@
 #include "maze_c/utils.h"
 
+#if defined(_WIN32) || defined(_WIN64) // 윈도우 일때
+#include <conio.h>
+#include <windows.h>
+
+void init_term() {
+  HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+  CONSOLE_CURSOR_INFO info;
+  info.dwSize = 100;
+  info.bVisible = FALSE;
+  SetConsoleCursorInfo(consoleHandle, &info);
+}
+
+void reset_term() {
+  HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+  CONSOLE_CURSOR_INFO info;
+  info.dwSize = 100;
+  info.bVisible = TRUE;
+  SetConsoleCursorInfo(consoleHandle, &info);
+}
+
+int kbhit() { return _kbhit(); }
+
+void sleep_ms(int ms) { Sleep(ms); }
+
+#else
+
 #include <termios.h>
 #include <unistd.h>
 
@@ -26,3 +52,5 @@ int kbhit() {
   return select(1, &fds, NULL, NULL, &tv);
 }
 void sleep_ms(int ms) { usleep(ms * 1000); }
+
+#endif
