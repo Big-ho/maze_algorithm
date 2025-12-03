@@ -90,56 +90,6 @@ static int pooling(int **map, int **out_reduced_map, int original_size,
   return 0;
 }
 
-// 입출구 찾기
-static int find_gateway_index(int **map, int size) {
-  int center_col_index = size / 2;
-
-  if (map[0][center_col_index] == 0 && map[size - 1][center_col_index] == 0) {
-    return center_col_index;
-  }
-
-  for (int offset = 1; offset <= center_col_index; offset++) {
-    int left = center_col_index - offset;
-    int right = center_col_index + offset;
-
-    if (left >= 0 && map[0][left] == 0) {
-      if (map[0][left] == 0 && map[size - 1][left] == 0) {
-        return left;
-      }
-    }
-    if (right < size && map[0][right] == 0) {
-      if (map[0][right] == 0 && map[size - 1][right] == 0) {
-        return right;
-      }
-    }
-  }
-  // 0이 없으면 강제 선택
-  return center_col_index;
-}
-
-// 최외곽이 0인 버그 처리, 최외곽을 1(벽)으로 하고 입출구 뚫기
-static int close_map_boundaries_bug(int **map, int size) {
-  for (int row = 0; row < size; row++) { // 세로 평행 줄
-    map[row][0] = 1;
-    map[row][size - 1] = 1;
-  }
-  for (int col = 0; col < size; col++) {
-    map[0][col] = 1;
-    map[size - 1][col] = 1;
-  }
-
-  int gateway_index = find_gateway_index(map, size);
-  if (gateway_index < 0 || gateway_index >= size) {
-    fprintf(stderr, "[ERROR] 게이트웨이 인덱스 오류 (index: %d)\n",
-            gateway_index);
-    return -1;
-  }
-
-  map[0][gateway_index] = 0;
-  map[size - 1][gateway_index] = 0;
-  return 0;
-}
-
 /**
  * @brief 맵 축소 알고리즘
  *
@@ -162,10 +112,6 @@ int apply_reduce_map(int **map, int **out_reduced_map, int width, int height,
          height, reduced_map_size, reduced_map_size);
   if (pooling(map, out_reduced_map, width, reduced_map_size) != 0) {
     fprintf(stderr, "[ERROR] Pooling 실패\n");
-    return -1;
-  }
-  if (close_map_boundaries_bug(out_reduced_map, reduced_map_size) != 0) {
-    fprintf(stderr, "[ERROR] 맵 경계 처리 실패");
     return -1;
   }
 
