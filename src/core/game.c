@@ -8,10 +8,10 @@ int get_dynamic_tracker_delay(int distance, int base_delay) {
   if (distance < 5) {
     return base_delay * 2;
   }
-  if (distance < 15) {
+  if (distance < 10) {
     return base_delay;
   }
-  if (distance < 30) {
+  if (distance < 20) {
     return (int)(base_delay * 0.7);
   }
 

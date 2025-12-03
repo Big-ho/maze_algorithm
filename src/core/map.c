@@ -97,7 +97,7 @@ int init_custom_map(Map *out_map, char *filepath) {
   }
 
   out_map->start = (Point){start, out_map->height - 1};
-  out_map->exit = (Point){start, 0};
+  out_map->exit = (Point){exit, 0};
   out_map->player = out_map->start;
   out_map->tracker = out_map->start;
 
