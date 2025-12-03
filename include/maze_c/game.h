@@ -2,7 +2,7 @@
 
 #include "maze_c/types.h"
 
-int get_dynamic_tracker_delay(Point p1, Point p2, int base);
+int get_dynamic_tracker_delay(int distance, int base_delay);
 void display_map(Map map);
 void render();
 int process_input(Map *map, int key);

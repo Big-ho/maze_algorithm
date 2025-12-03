@@ -4,10 +4,11 @@
 #include "maze_c/types.h"
 #include "maze_c/utils.h"
 
-Point get_next_step(const Map *map) {
-  int dx[4] = {0, 0, -1, 1};
-  int dy[4] = {-1, 1, 0, 0};
+const int DX[4] = {0, 0, -1, 1};
+const int DY[4] = {-1, 1, 0, 0};
 
+/* 주의!! return 값 메모리 해제 필수 */
+int **bfs(const Map *map) {
   int w = map->width;
   int h = map->height;
 
@@ -24,7 +25,6 @@ Point get_next_step(const Map *map) {
   enqueue(&q, map->player);
   dist[map->player.y][map->player.x] = 0;
 
-  // bfs
   while (!is_empty(&q)) {
     Point curr = dequeue(&q);
 
@@ -33,8 +33,8 @@ Point get_next_step(const Map *map) {
     }
 
     for (int i = 0; i < 4; i++) {
-      int nx = curr.x + dx[i];
-      int ny = curr.y + dy[i];
+      int nx = curr.x + DX[i];
+      int ny = curr.y + DY[i];
 
       if (nx >= 0 && nx < w && ny >= 0 && ny < h) {
         if (map->grid[ny][nx] != 1 && dist[ny][nx] == -1) {
@@ -44,23 +44,24 @@ Point get_next_step(const Map *map) {
       }
     }
   }
+  return dist;
+}
 
-  Point next_point = map->tracker;
-  int min_dist = 99999;
-
+Point get_next_step(int **dist, Point *p, int w, int h) {
+  int min_dist = 9999;
+  Point next_point = *p;
   // 짧은 길 선택
   for (int i = 0; i < 4; i++) {
-    int nx = map->tracker.x + dx[i];
-    int ny = map->tracker.y + dy[i];
+    int nx = p->x + DX[i];
+    int ny = p->y + DY[i];
 
     if (nx >= 0 && nx < w && ny >= 0 && ny < h && dist[ny][nx] != -1) {
       if (dist[ny][nx] < min_dist) {
         min_dist = dist[ny][nx];
         next_point = (Point){nx, ny};
-      }
+      };
     }
   }
-  free_2d_array(dist);
 
   return next_point;
 }

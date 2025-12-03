@@ -3,20 +3,19 @@
 #include "maze_c/types.h"
 
 #include <stdio.h>
-#include <stdlib.h>
 
-int get_dynamic_tracker_delay(Point p1, Point p2, int base) {
-  int distance = abs(p1.x - p2.x) + abs(p1.y - p2.y);
-  int dynamic_delay = base - distance;
-
-  if (dynamic_delay < 3) {
-    return 3;
+int get_dynamic_tracker_delay(int distance, int base_delay) {
+  if (distance < 5) {
+    return base_delay * 2;
   }
-  if (dynamic_delay > base) {
-    return base;
+  if (distance < 15) {
+    return base_delay;
+  }
+  if (distance < 30) {
+    return (int)(base_delay * 0.7);
   }
 
-  return dynamic_delay;
+  return base_delay / 2;
 }
 
 void display_map(Map map) {

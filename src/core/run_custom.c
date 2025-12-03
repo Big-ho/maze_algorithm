@@ -16,7 +16,7 @@ int run_custom_game(Map *map) {
   const int FPS_DELAY = 30;
   const int WAIT_TIME = 3;
   const int TRACKER_DELAY_TICK = WAIT_TIME * (1000 / FPS_DELAY);
-  const int TRACKER_BASE_SPEED = 30;
+  const int TRACKER_BASE_DELAY = 30;
 
   while (1) {
     render();
@@ -34,12 +34,16 @@ int run_custom_game(Map *map) {
     }
 
     if (global_tick >= TRACKER_DELAY_TICK) {
-      int tracker_speed = get_dynamic_tracker_delay(map->player, map->tracker,
-                                                    TRACKER_BASE_SPEED);
+      int **dist = bfs(map);
+      int distance = dist[map->tracker.y][map->tracker.x];
+      int tracker_delay =
+          get_dynamic_tracker_delay(distance, TRACKER_BASE_DELAY);
+
       tracker_tick++;
-      if (tracker_tick >= tracker_speed) {
+      if (tracker_tick >= tracker_delay) {
         tracker_tick = 0;
-        map->tracker = get_next_step(map);
+        map->tracker =
+            get_next_step(dist, &map->tracker, map->width, map->height);
       }
 
       if (is_gameover(*map)) {
@@ -49,6 +53,7 @@ int run_custom_game(Map *map) {
         sleep_ms(ENDING_DELAY);
         break;
       }
+      free_2d_array(dist);
     }
 
     if (is_clear(*map)) {
