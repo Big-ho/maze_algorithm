@@ -2,6 +2,20 @@
 
 _프로그래밍 실습 – 개인 프로젝트_
 
+## 소개
+
+어떤 (NxN 사이즈) maze map을 넣어도 자동으로 맵을 축소시켜 미로 탈출 게임을 즐길 수 있게 해준다.
+
+## 실행
+
+### example 폴더 확인‼️
+
+### 영상 확인‼️
+
+### guide.md 확인‼️
+
+---
+
 ## 🚀 현재 개발 진행 상황 (Progress)
 
 ### ✓ 구현 완료
@@ -54,7 +68,7 @@ int is_valid;
 int is_collision();
 ```
 
-#### 🔸 b. `out\_` (Output Parameter Prefix)
+#### 🔸 b. `out_` (Output Parameter Prefix)
 
 포인터 인자로 값을 출력하는 경우 사용합니다. (최근 코드에서는 미사용)
 
