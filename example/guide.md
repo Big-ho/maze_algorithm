@@ -1,7 +1,7 @@
 ## Step 1
 
 https://www.mazegenerator.net/ <br/>
-해당 링크에서 너비와 높이 같도록 다운로드 (png)
+해당 링크에서 원하는 크기의 너비와 높이 같도록 다운로드 (png)
 
 ## Step 2
 
